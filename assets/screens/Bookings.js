@@ -93,7 +93,9 @@ function BookingsScreen({ route, navigation }) {
     firebase.firestore().collection("bookings").doc(booking.bookingId).collection("timeline").add({
         time: strTime,
         title: "Accepted", 
-        description: "Your driver is on his way"
+        description: "Your driver is on his way",
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        step: 2
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -158,7 +160,9 @@ function BookingsScreen({ route, navigation }) {
     firebase.firestore().collection("bookings").doc(booking.bookingId).collection("timeline").add({
         time: strTime,
         title: "Arrived Origin", 
-        description: "Your driver is now on your origin"
+        description: "Your driver is now on your origin",
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        step: 3
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -198,7 +202,9 @@ function BookingsScreen({ route, navigation }) {
     firebase.firestore().collection("bookings").doc(booking.bookingId).collection("timeline").add({
         time: strTime,
         title: "Ariived Destination", 
-        description: "You're arrive at your destination"
+        description: "You're arrive at your destination",
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        step: 4
     })
     .then(() => {
         console.log("Document successfully updated!");
@@ -215,18 +221,18 @@ function BookingsScreen({ route, navigation }) {
         myBookings.map(booking => {
             feeArray.push(booking.fare)
 
-            firebase.firestore().collection("remits")
-            .doc(booking.bookingId)
+            firebase.firestore().collection("bookings")
+            .doc(booking.id)
             .update({
                 isRemitted: true
             })
         }),
         firebase.firestore().collection("remits")
         .add({
-            driverComission: feeArray.reduce((a, b) => a + b, 0) * 0.40,
+            driverComission: feeArray.reduce((a, b) => a + b, 0) * 0.20,
             driverId: fb.auth().currentUser.uid,
             driverName: fb.auth().currentUser.displayName,
-            etulodPercentage: 40,
+            etulodPercentage: 20,
             isPaid: false,
             remitFee: feeArray.reduce((a, b) => a + b, 0),
             remittedAt: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -234,6 +240,7 @@ function BookingsScreen({ route, navigation }) {
           })
           .then((docRef) => {
             Alert.alert("Remitted Successfully!")
+            setMyBookings([])
           });
     } else {
         Alert.alert("You don't have bookings to remit!")

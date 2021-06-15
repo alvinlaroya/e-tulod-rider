@@ -58,14 +58,14 @@ function RemitScreen({route, navigation}) {
                 <Text style={{ fontWeight: "bold" }}>
                   <Text style={{ fontWeight: "bold", color: "#05686e" }}>
                     Driver Comission:{" "}
-                  </Text>e
+                  </Text>
                   ₱{remit.driverComission}
                 </Text>
                 <Text style={{ fontWeight: "bold" }}>
                   <Text style={{ fontWeight: "bold", color: "#05686e" }}>
                     Fare:{" "}
                   </Text>
-                  20
+                  ₱{remit.remitFee}
                 </Text>
               </View>
               <View>

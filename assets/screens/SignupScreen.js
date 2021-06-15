@@ -70,7 +70,7 @@ const SignUpScreen = ({ route, navigation }) => {
               isOnline: true,
               onlinedAt: null,
               rate: 0,
-              status: 0,
+              status: 1,
               createdAt: timestamp()
           }).then(() => {
             /* fb.auth().signOut().then(() => {
